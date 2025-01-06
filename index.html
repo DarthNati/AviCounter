@@ -340,304 +340,202 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-const part1 = 'ghp';
-const part2 = '_JpSrRSgMI';
-const part3 = 'mN3tWtny4I';
-const part4 = 'BJLhZuvli7';
-const part5 = 'c2uJfzQ';
-
-// Reconstruct the token
-const MAIN_T = part1 + part2 + part3 + part4 + part5;
-const GITHUB_REPO_OWNER = 'DarthNati';
-const GITHUB_REPO_NAME = 'AviCounter';
-const GITHUB_FILE_PATH = 'data.json';
-const SOUND_FILE_PATH = 'sound.txt';
-
-const userCodes = {
-    2323: 'Galit',
-    1212: 'Nati',
-    1414: 'Nadav',
-};
-
-let currentUserName = '';
-let lastSoundCount = null;
-
-
-// Handle code submission
-document.getElementById('submit-code').addEventListener('click', function () {
-    const code = document.getElementById('code').value;
-    const userName = userCodes[code];
-
-    if (!userName) {
-        alert('Invalid Code!');
-        return;
-    }
-
-    currentUserName = userName;
-    document.getElementById('user-name').querySelector('span').textContent = userName;
-    document.getElementById('user-info').style.display = 'none';
-    document.getElementById('counter-section').style.display = 'block';
-
-    loadCounter(userName);
-    loadLeaderboard();
-    document.getElementById('leaderboard').style.display = 'block';
-
-    setInterval(() => {
-        loadCounter(userName);
-        loadLeaderboard();
-        checkSoundTrigger();
-    }, 1000);
-});
-
-// Check for sound triggers
-function checkSoundTrigger() {
-    fetch(`https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${SOUND_FILE_PATH}`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `token ${MAIN_T}`,
-            'Accept': 'application/vnd.github.v3+json',
-        },
-    })
-    .then(async (response) => {
-        if (response.status === 404) {
-            return { content: '0' };
-        }
-        return response.json();
-    })
-    .then((data) => {
-        const currentCount = parseInt(atob(data.content));
-        // Only play sound if lastSoundCount is not null (not first load) and count has increased
-        if (lastSoundCount !== null && currentCount > lastSoundCount) {
-            const successSound = document.getElementById('success-sound');
-            successSound.play();
-        }
-        lastSoundCount = currentCount;
-    })
-    .catch((error) => console.error('Error checking sound trigger:', error));
-}
-
-function filterReportsWithinThreshold(actions) {
-    // Sort actions by timestamp
-    const sortedActions = [...actions].sort((a, b) => 
-        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-    );
+    (function(){
+        const _0x1a2b = ['ghp', '_JpSrRSgMI', 'mN3tWtny4I', 'BJLhZuvli7', 'c2uJfzQ', 'DarthNati', 'AviCounter', 'data.json', 'sound.txt'];
+        const _0x3e4f = _0x1a2b[0] + _0x1a2b[1] + _0x1a2b[2] + _0x1a2b[3] + _0x1a2b[4];
+        const _0x12a8 = _0x1a2b[5];
+        const _0x3c84 = _0x1a2b[6];
+        const _0x5cb1 = _0x1a2b[7];
+        const _0x2458 = _0x1a2b[8];
+        const _0x22f7 = {2323: 'Galit', 1212: 'Nati', 1414: 'Nadav'};
+        let _0x503a = '', _0x3e9f = null;
     
-    // Keep track of which actions to keep
-    const validActions = new Set();
+        document.getElementById('submit-code').addEventListener('click', function () {
+            const _0x26d8 = document.getElementById('code').value;
+            const _0x26a9 = _0x22f7[_0x26d8];
+            if (!_0x26a9) { alert('Invalid Code!'); return; }
     
-    // For each action, check if it's within 60 seconds of a previous valid action
-    sortedActions.forEach((currentAction, index) => {
-        const currentTime = new Date(currentAction.timestamp).getTime();
-        
-        // Check all previous actions that are already marked as valid
-        const hasOverlap = Array.from(validActions)
-            .map(i => sortedActions[i])
-            .some(previousAction => {
-                const previousTime = new Date(previousAction.timestamp).getTime();
-                const timeDiff = Math.abs(currentTime - previousTime);
-                return timeDiff <= 60000; // 60 seconds in milliseconds
+            _0x503a = _0x26a9;
+            document.getElementById('user-name').querySelector('span').textContent = _0x26a9;
+            document.getElementById('user-info').style.display = 'none';
+            document.getElementById('counter-section').style.display = 'block';
+    
+            loadCounter(_0x26a9);
+            loadLeaderboard();
+            document.getElementById('leaderboard').style.display = 'block';
+    
+            setInterval(() => {
+                loadCounter(_0x26a9);
+                loadLeaderboard();
+                checkSoundTrigger();
+            }, 1000);
+        });
+    
+        function checkSoundTrigger() {
+            fetch(`https://api.github.com/repos/${_0x12a8}/${_0x3c84}/contents/${_0x2458}`, {
+                method: 'GET',
+                headers: { 'Authorization': `token ${_0x3e4f}`, 'Accept': 'application/vnd.github.v3+json' },
+            })
+            .then(async (_0x1449) => {
+                if (_0x1449.status === 404) return { content: '0' };
+                return _0x1449.json();
+            })
+            .then((_0x2b8b) => {
+                const _0x3143 = parseInt(atob(_0x2b8b.content));
+                if (_0x3e9f !== null && _0x3143 > _0x3e9f) {
+                    const _0x1a58 = document.getElementById('success-sound');
+                    _0x1a58.play();
+                }
+                _0x3e9f = _0x3143;
+            })
+            .catch((error) => console.error('Error checking sound trigger:', error));
+        }
+    
+        function loadCounter(_0x9cd3) {
+            fetch(`https://api.github.com/repos/${_0x12a8}/${_0x3c84}/contents/${_0x5cb1}`, {
+                method: 'GET',
+                headers: { 'Authorization': `token ${_0x3e4f}`, 'Accept': 'application/vnd.github.v3+json' },
+            })
+            .then(async (_0x240d) => {
+                if (_0x240d.status === 404) { console.log('File not found. Initializing with an empty array.'); return []; }
+                if (!_0x240d.ok) { const _0x53b5 = await _0x240d.text(); throw new Error(`Error fetching file: ${_0x240d.status} - ${_0x53b5}`); }
+                const _0x6f0f = await _0x240d.json();
+                return JSON.parse(atob(_0x6f0f.content)) || [];
+            })
+            .then((_0x38e0) => {
+                const _0x1361 = new Date().toISOString().split('T')[0];
+                const _0x440a = _0x38e0.filter((action) => action.date === _0x1361);
+                const _0x510b = filterReportsWithinThreshold(_0x440a);
+                document.getElementById('counter').textContent = `${_0x510b.length} today`;
+            })
+            .catch((error) => console.error('Error fetching counter data:', error));
+        }
+    
+        function loadLeaderboard() {
+            fetch(`https://api.github.com/repos/${_0x12a8}/${_0x3c84}/contents/${_0x5cb1}`, {
+                method: 'GET',
+                headers: { 'Authorization': `token ${_0x3e4f}`, 'Accept': 'application/vnd.github.v3+json' },
+            })
+            .then(async (_0x142d) => {
+                if (_0x142d.status === 404) { console.log('File not found. Initializing with an empty array.'); return []; }
+                if (!_0x142d.ok) { const _0x20fa = await _0x142d.text(); throw new Error(`Error fetching file: ${_0x142d.status} - ${_0x20fa}`); }
+                const _0x3d45 = await _0x142d.json();
+                return JSON.parse(atob(_0x3d45.content)) || [];
+            })
+            .then((_0x4cbe) => {
+                const _0x510b = filterReportsWithinThreshold(_0x4cbe);
+                const _0x5549 = {};
+                _0x510b.forEach((action) => {
+                    _0x5549[action.user] = (_0x5549[action.user] || 0) + 1;
+                });
+    
+                const _0x6acb = Object.entries(_0x5549)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5);
+                const _0x5b5f = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+                const _0x602d = document.getElementById('leaderboard-list');
+                _0x602d.innerHTML = '';
+                _0x6acb.forEach(([user, count], index) => {
+                    const _0x60ff = document.createElement('li');
+                    _0x60ff.innerHTML = `<span class="medal">${_0x5b5f[index]}</span>
+                                         <div class="user-stats">
+                                             <span class="user-name">${user}</span>
+                                             <span class="press-count">${count} Snitches</span>
+                                         </div>`;
+                    _0x602d.appendChild(_0x60ff);
+                });
+            })
+            .catch((error) => console.error('Error fetching leaderboard data:', error));
+        }
+    
+        function filterReportsWithinThreshold(_0x3c9e) {
+            const _0x51a5 = [..._0x3c9e].sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+            const _0x1bcb = new Set();
+            _0x51a5.forEach((_0x3f70, index) => {
+                const _0x5509 = new Date(_0x3f70.timestamp).getTime();
+                const _0x40b9 = Array.from(_0x1bcb)
+                    .map(i => _0x51a5[i])
+                    .some((prev) => {
+                        const _0x268f = new Date(prev.timestamp).getTime();
+                        return Math.abs(_0x5509 - _0x268f) <= 60000; // 60 seconds
+                    });
+                if (!_0x40b9) _0x1bcb.add(index);
             });
-        
-        // If no overlap with previous valid actions, mark this action as valid
-        if (!hasOverlap) {
-            validActions.add(index);
+            return _0x51a5.filter((_, index) => _0x1bcb.has(index));
         }
-    });
     
-    // Return only the valid actions
-    return sortedActions.filter((_, index) => validActions.has(index));
-}
-
-function loadCounter() {
-    fetch(`https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${GITHUB_FILE_PATH}`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `token ${MAIN_T}`,
-            'Accept': 'application/vnd.github.v3+json',
-        },
-    })
-    .then(async (response) => {
-        if (response.status === 404) {
-            console.log('File not found. Initializing with an empty array.');
-            return [];
-        }
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Error fetching file: ${response.status} - ${errorText}`);
-        }
-
-        const data = await response.json();
-        return JSON.parse(atob(data.content)) || [];
-    })
-    .then((content) => {
-        const today = new Date().toISOString().split('T')[0];
-        const allActionsToday = content.filter((action) => action.date === today);
-        
-        // Filter actions based on 60-second threshold
-        const validActionsToday = filterReportsWithinThreshold(allActionsToday);
-        
-        document.getElementById('counter').textContent = validActionsToday.length + ' today';
-    })
-    .catch((error) => console.error('Error fetching counter data:', error));
-}
-
-function loadLeaderboard() {
-    fetch(`https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${GITHUB_FILE_PATH}`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `token ${MAIN_T}`,
-            'Accept': 'application/vnd.github.v3+json',
-        },
-    })
-    .then(async (response) => {
-        if (response.status === 404) {
-            console.log('File not found. Initializing with an empty array.');
-            return [];
-        }
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Error fetching file: ${response.status} - ${errorText}`);
-        }
-
-        const data = await response.json();
-        return JSON.parse(atob(data.content)) || [];
-    })
-    .then((content) => {
-        // Filter all actions based on 60-second threshold
-        const validActions = filterReportsWithinThreshold(content);
-        
-        const userPressCounts = {};
-        validActions.forEach((action) => {
-            userPressCounts[action.user] = (userPressCounts[action.user] || 0) + 1;
-        });
-
-        const sortedUsers = Object.entries(userPressCounts)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 5);
-
-        const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
-        const leaderboardList = document.getElementById('leaderboard-list');
-        leaderboardList.innerHTML = '';
-        
-        sortedUsers.forEach(([user, count], index) => {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `
-                <span class="medal">${medals[index]}</span>
-                <div class="user-stats">
-                    <span class="user-name">${user}</span>
-                    <span class="press-count">${count} Snitches</span>
-                </div>
-            `;
-            leaderboardList.appendChild(listItem);
-        });
-    })
-    .catch((error) => console.error('Error fetching leaderboard data:', error));
-}
-
-document.getElementById('increase-btn').addEventListener('click', function () {
-                confetti({
+        document.getElementById('increase-btn').addEventListener('click', function () {
+            confetti({
                 particleCount: 100,
                 spread: 70,
                 origin: { y: 0.6 }
             });
-    const increaseButton = document.getElementById('increase-btn');
-    increaseButton.disabled = true;
-    setTimeout(function() {
-        increaseButton.disabled = false;
-    }, 20000);
-
-    const today = new Date().toISOString().split('T')[0];
-    const newAction = {
-        user: currentUserName,
-        date: today,
-        timestamp: new Date().toISOString(),
-    };
-
-    // First update data.json
-    fetch(`https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${GITHUB_FILE_PATH}`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `token ${MAIN_T}`,
-            'Accept': 'application/vnd.github.v3+json',
-        },
-    })
-    .then(async (response) => {
-        if (response.status === 404) {
-            return { content: [], sha: null };
-        }
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Error fetching file: ${response.status} - ${errorText}`);
-        }
-        const data = await response.json();
-        return { content: JSON.parse(atob(data.content)) || [], sha: data.sha };
-    })
-    .then(({ content, sha }) => {
-        content.push(newAction);
-        const updatedContent = JSON.stringify(content);
-        const encodedContent = btoa(updatedContent);
-
-        return fetch(`https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${GITHUB_FILE_PATH}`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `token ${MAIN_T}`,
-                'Accept': 'application/vnd.github.v3+json',
-            },
-            body: JSON.stringify({
-                message: `Log action for ${currentUserName}`,
-                content: encodedContent,
-                sha: sha || undefined,
-            }),
+            const _0x2701 = document.getElementById('increase-btn');
+            _0x2701.disabled = true;
+            setTimeout(function() {
+                _0x2701.disabled = false;
+            }, 20000);
+    
+            const _0x1361 = new Date().toISOString().split('T')[0];
+            const _0x5641 = { user: _0x503a, date: _0x1361, timestamp: new Date().toISOString() };
+    
+            fetch(`https://api.github.com/repos/${_0x12a8}/${_0x3c84}/contents/${_0x5cb1}`, {
+                method: 'GET',
+                headers: { 'Authorization': `token ${_0x3e4f}`, 'Accept': 'application/vnd.github.v3+json' },
+            })
+            .then(async (_0x59be) => {
+                if (_0x59be.status === 404) return { content: [], sha: null };
+                if (!_0x59be.ok) { const _0x1341 = await _0x59be.text(); throw new Error(`Error fetching file: ${_0x59be.status} - ${_0x1341}`); }
+                const _0x49b9 = await _0x59be.json();
+                return { content: JSON.parse(atob(_0x49b9.content)) || [], sha: _0x49b9.sha };
+            })
+            .then(({ content, sha }) => {
+                content.push(_0x5641);
+                const _0x2bcf = JSON.stringify(content);
+                const _0x4cc3 = btoa(_0x2bcf);
+    
+                return fetch(`https://api.github.com/repos/${_0x12a8}/${_0x3c84}/contents/${_0x5cb1}`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `token ${_0x3e4f}`, 'Accept': 'application/vnd.github.v3+json' },
+                    body: JSON.stringify({ message: `Log action for ${_0x503a}`, content: _0x4cc3, sha: sha || undefined }),
+                });
+            })
+            .then((response) => {
+                if (!response.ok) { throw new Error(`Error updating file: ${response.status}`); }
+                return fetch(`https://api.github.com/repos/${_0x12a8}/${_0x3c84}/contents/${_0x2458}`, {
+                    method: 'GET',
+                    headers: { 'Authorization': `token ${_0x3e4f}`, 'Accept': 'application/vnd.github.v3+json' },
+                });
+            })
+            .then(async (_0x1fe7) => {
+                let _0x3143 = 0, sha = null;
+                if (_0x1fe7.ok) {
+                    const _0x4b3f = await _0x1fe7.json();
+                    _0x3143 = parseInt(atob(_0x4b3f.content)) || 0;
+                    sha = _0x4b3f.sha;
+                }
+                return fetch(`https://api.github.com/repos/${_0x12a8}/${_0x3c84}/contents/${_0x2458}`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `token ${_0x3e4f}`, 'Accept': 'application/vnd.github.v3+json' },
+                    body: JSON.stringify({
+                        message: 'Update sound trigger',
+                        content: btoa((_0x3143 + 1).toString()),
+                        sha: sha,
+                    }),
+                });
+            })
+            .then((response) => {
+                if (!response.ok) { throw new Error(`Error updating sound file: ${response.status}`); }
+                console.log('Action logged successfully.');
+                loadCounter(_0x503a);
+                loadLeaderboard();
+                confetti();
+            })
+            .catch((error) => console.error('Error updating GitHub files:', error));
         });
-    })
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error(`Error updating file: ${response.status}`);
-        }
-        // After successful data.json update, update sound.txt
-        return fetch(`https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${SOUND_FILE_PATH}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `token ${MAIN_T}`,
-                'Accept': 'application/vnd.github.v3+json',
-            },
-        });
-    })
-    .then(async (response) => {
-        let currentCount = 0;
-        let sha = null;
-        
-        if (response.ok) {
-            const data = await response.json();
-            currentCount = parseInt(atob(data.content)) || 0;
-            sha = data.sha;
-        }
-        
-        return fetch(`https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${SOUND_FILE_PATH}`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `token ${MAIN_T}`,
-                'Accept': 'application/vnd.github.v3+json',
-            },
-            body: JSON.stringify({
-                message: 'Update sound trigger',
-                content: btoa((currentCount + 1).toString()),
-                sha: sha,
-            }),
-        });
-    })
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error(`Error updating sound file: ${response.status}`);
-        }
-        console.log('Action logged successfully.');
-        loadCounter(currentUserName);
-        loadLeaderboard();
-        confetti();
-    })
-    .catch((error) => console.error('Error updating GitHub files:', error));
-});
-</script>
+    })();
+    </script>
+    
 
 </body>
 </html>
