@@ -177,6 +177,8 @@ function _0xloadLeaderboard() {
                 _0xbackgroundImage = 'url("https://raw.githubusercontent.com/DarthNati/AviCounter/refs/heads/main/na.png")';
             } else if (user === 'Galit') {
                 _0xbackgroundImage = 'url("https://raw.githubusercontent.com/DarthNati/AviCounter/refs/heads/main/g.png")';
+            } else if (user === 'Guy') {
+                _0xbackgroundImage = 'url("https://raw.githubusercontent.com/DarthNati/AviCounter/refs/heads/main/gu.png")';
             } else if (user === 'Hodaya') {
                 _0xbackgroundImage = 'url("https://raw.githubusercontent.com/DarthNati/AviCounter/refs/heads/main/h.png")';
             } else if (user === 'Nadav') {
