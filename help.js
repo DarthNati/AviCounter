@@ -89,7 +89,7 @@ function _0xfilterReportsWithinThreshold(actions) {
             .some(previousAction => {
                 const _0xpreviousTime = new Date(previousAction.timestamp).getTime();
                 const _0xtimeDiff = Math.abs(_0xcurrentTime - _0xpreviousTime);
-                return _0xtimeDiff <= 60000; 
+                return _0xtimeDiff <= 20000; 
             });
 
         if (!_0xhasOverlap) {
