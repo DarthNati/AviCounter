@@ -39,14 +39,68 @@ document.getElementById('submit-code').addEventListener('click', function () {
 
     _0xloadCounter(_0xuserName);
     _0xloadLeaderboard();
+    _0xloadTopDays();
     document.getElementById('leaderboard').style.display = 'block';
+    document.getElementById('top-days').style.display = 'block';
 
     setInterval(() => {
         _0xloadCounter(_0xuserName);
         _0xloadLeaderboard();
+        _0xloadTopDays();
         _0xcheckSoundTrigger();
     }, 1000);
 });
+
+function _0xloadTopDays() {
+    fetch(`https://api.github.com/repos/${_0xGITHUB_REPO_OWNER}/${_0xGITHUB_REPO_NAME}/contents/${_0xGITHUB_FILE_PATH}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `token ${_0xMAIN_T}`,
+            'Accept': 'application/vnd.github.v3+json',
+        },
+    })
+    .then(async (response) => {
+        if (response.status === 404) {
+            return [];
+        }
+        const data = await response.json();
+        return JSON.parse(atob(data.content)) || [];
+    })
+    .then((content) => {
+        const _0xdailyCounts = {};
+        
+        content.forEach((action) => {
+            _0xdailyCounts[action.date] = (_0xdailyCounts[action.date] || 0) + 1;
+        });
+
+        const _0xsortedDays = Object.entries(_0xdailyCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5);
+
+        const _0xmedals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+        const _0xtopDaysList = document.getElementById('top-days-list');
+        _0xtopDaysList.innerHTML = '';
+
+        _0xsortedDays.forEach(([date, count], index) => {
+            const _0xlistItem = document.createElement('li');
+            const formattedDate = new Date(date).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+
+            _0xlistItem.innerHTML = `
+                <span class="medal">${_0xmedals[index]}</span>
+                <div class="day-stats">
+                    <span class="day-date">${formattedDate}</span>
+                    <span class="press-count">${count} Reports</span>
+                </div>
+            `;
+            _0xtopDaysList.appendChild(_0xlistItem);
+        });
+    })
+    .catch((error) => console.error('Error fetching top days data:', error));
+}
 
 // Check for sound triggers
 function _0xcheckSoundTrigger() {
