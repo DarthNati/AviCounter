@@ -18,7 +18,7 @@
             color: white;
             overflow-x: hidden;
         }
-    
+
         .container {
             max-width: 1200px;
             padding: 2rem;
@@ -26,9 +26,9 @@
         }
 
         #incognito-toggle {
-    position: absolute;
-    top: -50px; /* Moved further up */
-    right: 0;
+    position: fixed; /* Changed from absolute to fixed */
+    top: 20px;      /* Changed from -50px to 20px */
+    right: 20px;    /* Added specific right margin */
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
@@ -36,43 +36,44 @@
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
+    z-index: 1000;  /* Added z-index to ensure it stays on top */
 }
 
-        #incognito-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
+#incognito-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
 
         .incognito-mode #increase-btn img {
             content: url('https://e7.pngegg.com/pngimages/343/500/png-clipart-white-and-brown-chihuahua-mix-border-collie-puppy-pet-sitting-dog-face-animals-pet-thumbnail.png');
         }
-    
+
         .app-wrapper {
             display: grid;
-            grid-template-columns: 1fr auto;
+            grid-template-columns: 300px 1fr 300px; /* Three columns: left, center, right */
             gap: 2rem;
             margin-top: 2rem;
             position: relative;
         }
-    
         .counter-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease;
-        }
-    
+    background: #1E2333;
+    max-width: 490px;  /* Increased from 320px */
+    width: 700%;       /* Added to ensure it takes full width up to max-width */
+    margin: 0 auto;
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
         .nadav-box {
             background-image: url('https://raw.githubusercontent.com/DarthNati/AviCounter/refs/heads/main/n.png');
             background-position: center top; /* Adjust this to focus on the lower part */
         }
-    
+
         .counter-card:hover {
             transform: translateY(-5px);
         }
-    
+
         h2 {
             font-size: 2.5rem;
             font-weight: 800;
@@ -82,7 +83,7 @@
             -webkit-text-fill-color: transparent;
             text-align: center;
         }
-    
+
         .counter {
             font-size: 5rem;
             font-weight: 800;
@@ -92,11 +93,11 @@
             text-shadow: 0 0 10px rgba(78, 249, 254, 0.5);
             transition: all 0.3s ease;
         }
-    
+
         .input-code {
             margin: 2rem 0;
         }
-    
+
         .input-code input {
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid rgba(255, 255, 255, 0.2);
@@ -107,17 +108,17 @@
             width: 100%;
             transition: all 0.3s ease;
         }
-    
+
         .input-code input:focus {
             outline: none;
             border-color: #4ef9fe;
             box-shadow: 0 0 15px rgba(78, 249, 254, 0.3);
         }
-    
+
         .input-code input::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
-    
+
         .btn {
             background: linear-gradient(45deg, #ff6b6b, #ffd93d);
             border: none;
@@ -132,27 +133,27 @@
             width: 100%;
             margin-top: 1rem;
         }
-    
+
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
         }
-    
+
         .btn:active {
             transform: translateY(0);
         }
-    
+
         .btn-success {
             background: linear-gradient(45deg, #00f2c3, #0098f0);
         }
-    
+
         .stats-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
             width: 600px;
         }
-    
+
         .leaderboard {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -162,7 +163,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: none;
         }
-    
+
         .leaderboard h4 {
             font-size: 1.5rem;
             font-weight: 600;
@@ -172,13 +173,13 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-    
+
         .leaderboard ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-    
+
         .leaderboard li {
             background: rgba(255, 255, 255, 0.05);
             margin-bottom: 1rem;
@@ -189,37 +190,73 @@
             gap: 1rem;
             transition: transform 0.3s ease;
         }
-    
-        /* Additional specific adjustments if needed */
-        .leaderboard li[style*="h.png"],
-        .leaderboard li[style*="n.png"] {
-            background-position: center top -45px !important;
-        }
-    
+
         .leaderboard li:hover {
             transform: translateX(10px);
             background: rgba(255, 255, 255, 0.1);
         }
-    
+
+        .top-snitchers-day {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 300px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+
+        .top-snitchers-day h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            background: linear-gradient(to right, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .top-snitchers-day ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .top-snitchers-day li {
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .top-snitchers-day li:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         .medal {
             font-size: 1.5rem;
             filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
         }
-    
+
         .user-stats {
             flex: 1;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-    
+
         .user-name {
             font-weight: 600;
             background: linear-gradient(45deg, #ff6b6b, #ffd93d);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-    
+
         .press-count {
             background: rgba(0, 0, 0, 0.7);
             padding: 0.25rem 0.75rem;
@@ -229,8 +266,7 @@
             text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
             font-weight: bold;
         }
-    
-        /* Reset styles for emojis */
+
         .emoji {
             color: initial;
             -webkit-text-fill-color: initial;
@@ -238,7 +274,7 @@
             text-shadow: none;
             filter: none;
         }
-    
+
         .alert-container {
             position: fixed;
             bottom: 0;
@@ -249,7 +285,7 @@
             backdrop-filter: blur(10px);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-    
+
         .alert {
             background: rgba(255, 107, 107, 0.1);
             border: 1px solid rgba(255, 107, 107, 0.2);
@@ -260,7 +296,7 @@
             text-align: center;
             font-weight: 600;
         }
-    
+
         .alert2 {
             background: rgba(255, 107, 107, 0.1);
             border: 1px solid rgba(255, 107, 107, 0.2);
@@ -271,8 +307,7 @@
             text-align: center;
             font-weight: 600;
         }
-    
-        /* New Top Days Styles */
+
         .top-days {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -282,7 +317,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: none;
         }
-    
+
         .top-days h4 {
             font-size: 1.5rem;
             font-weight: 600;
@@ -292,13 +327,13 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-    
+
         .top-days ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-    
+
         .top-days li {
             background: rgba(255, 255, 255, 0.05);
             margin-bottom: 1rem;
@@ -309,44 +344,43 @@
             gap: 1rem;
             transition: transform 0.3s ease;
         }
-    
+
         .top-days li:hover {
             transform: translateX(10px);
             background: rgba(255, 255, 255, 0.1);
         }
-    
+
         .day-stats {
             flex: 1;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-    
+
         .day-date {
             font-weight: 600;
             background: linear-gradient(45deg, #ff6b6b, #ffd93d);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-    
-        /* Animation classes */
+
         .fade-in {
             opacity: 0;
             transform: translateY(20px);
             animation: fadeIn 0.5s ease forwards;
         }
-    
+
         @keyframes fadeIn {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-    
+
         .pulse {
             animation: pulse 2s infinite;
         }
-    
+
         @keyframes pulse {
             0% {
                 transform: scale(1);
@@ -358,22 +392,21 @@
                 transform: scale(1);
             }
         }
-    
-        /* Media Queries */
+
         @media (max-width: 768px) {
             .app-wrapper {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* Stack everything on smaller screens */
             }
-    
+
             .stats-container {
                 grid-template-columns: 1fr;
                 width: 100%;
             }
-    
-            .leaderboard, .top-days {
+
+            .leaderboard, .top-days, .top-snitchers-day {
                 width: 100%;
             }
-    
+
             .counter {
                 font-size: 4rem;
             }
@@ -381,12 +414,21 @@
     </style>
 </head>
 <body>
-
-
     <audio id="click-sound" src="https://raw.githubusercontent.com/DarthNati/AviCounter/refs/heads/main/mario.mp3" preload="auto"></audio>
     <div class="container">
         <div class="app-wrapper">
-            
+            <!-- Top Snitchers of the Day on the left -->
+            <div class="top-snitchers-day fade-in" id="top-snitchers-day">
+                <h4>
+                    <span class="emoji">🐾</span>
+                    Top Snitchers of the Day
+                </h4>
+                <ul id="top-snitchers-day-list">
+                    <!-- Top snitchers of the day items will be populated here -->
+                </ul>
+            </div>
+
+            <!-- Main Counter Card -->
             <div class="counter-card fade-in">
                 <h2>
                     <span class="emoji">🚨</span>
@@ -403,45 +445,38 @@
                     <div id="counter" class="counter pulse">0</div>
                     <button id="increase-btn" class="btn btn-success">
                         <img id="toggleImage" 
-         src="https://github.com/DarthNati/AviCounter/blob/main/last.png?raw=true" 
-         onclick="toggleImage()"
-         style="cursor:pointer; max-width:300px;"
-    />  PRESS ME
+                            src="https://github.com/DarthNati/AviCounter/blob/main/last.png?raw=true" 
+                            onclick="toggleImage()"
+                            style="cursor:pointer; max-width:300px;"
+                        /> PRESS ME
                     </button>
                 </div>
             </div>
-            <script>
-                function toggleImage() {
-                    const img = document.getElementById('toggleImage');
-                    img.src = img.src.includes('last.png') 
-                    ? 'https://purepng.com/public/uploads/large/purepng.com-dog-faceanimalsdog-981524672957y2efm.png'
-                    : 'https://png.pngtree.com/png-vector/20230808/ourmid/pngtree-pug-face-png-image_6888946.png';
-                }
-            </script>
 
+            <!-- Top Snitchers on the right -->
             <div class="leaderboard fade-in" id="leaderboard">
                 <h4>
                     <span class="emoji">🐀</span>
                     Top Snitchers
                 </h4>
-                
                 <ul id="leaderboard-list">
                     <!-- Leaderboard items will be populated here -->
                 </ul>
                 <div class="alert2" role="alert2">
                     Beware: Snitches get stitches!
-                  </div>
+                </div>
             </div>
 
+            <!-- Top Days on the right -->
             <div class="top-days fade-in" id="top-days">
                 <h4>
                     <span class="emoji">📅</span>
-                    Top Days
+                    Top Report Days
                 </h4>
-                
                 <ul id="top-days-list">
                     <!-- Top days items will be populated here -->
                 </ul>
+            </div>
         </div>
         <div class="alert-container">
             <div class="alert alert-danger" role="alert">
@@ -462,18 +497,16 @@
         </script>
 
         <script>
-            // Get elements
-
             const submitButton = document.getElementById("submit-code");
             const clickSound = document.getElementById("click-sound");
             clickSound.volume = 0.2; // Set the volume to 30% of the maximum
-            // Add event listener to play sound on button click
             submitButton.addEventListener("click", function() {
                 clickSound.play();
             });
         </script>
-<audio id="success-sound" src="https://raw.githubusercontent.com/DarthNati/AviCounter/refs/heads/main/buttonpress.mp3" preload="auto"></audio>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="help.js"></script>
+        <audio id="success-sound" src="https://raw.githubusercontent.com/DarthNati/AviCounter/refs/heads/main/buttonpress.mp3" preload="auto"></audio>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="help.js"></script>
+    </div>
 </body>
 </html>
