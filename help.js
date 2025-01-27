@@ -40,13 +40,16 @@ document.getElementById('submit-code').addEventListener('click', function () {
     _0xloadCounter(_0xuserName);
     _0xloadLeaderboard();
     _0xloadTopDays();
+    _0xloadTopSnitchersOfDay(); // Load top snitchers of the day
     document.getElementById('leaderboard').style.display = 'block';
     document.getElementById('top-days').style.display = 'block';
+    document.getElementById('top-snitchers-day').style.display = 'block'; // Show the new box
 
     setInterval(() => {
         _0xloadCounter(_0xuserName);
         _0xloadLeaderboard();
         _0xloadTopDays();
+        _0xloadTopSnitchersOfDay(); // Update top snitchers of the day
         _0xcheckSoundTrigger();
     }, 1000);
 });
@@ -256,6 +259,73 @@ function _0xloadLeaderboard() {
     .catch((error) => console.error('Error fetching leaderboard data:', error));
 }
 
+function _0xloadTopSnitchersOfDay() {
+    fetch(`https://api.github.com/repos/${_0xGITHUB_REPO_OWNER}/${_0xGITHUB_REPO_NAME}/contents/${_0xGITHUB_FILE_PATH}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `token ${_0xMAIN_T}`,
+            'Accept': 'application/vnd.github.v3+json',
+        },
+    })
+    .then(async (response) => {
+        if (response.status === 404) {
+            return [];
+        }
+        const data = await response.json();
+        return JSON.parse(atob(data.content)) || [];
+    })
+    .then((content) => {
+        const today = new Date().toISOString().split('T')[0];
+        const _0xallActionsToday = content.filter((action) => action.date === today);
+
+        const _0xvalidActionsToday = _0xfilterReportsWithinThreshold(_0xallActionsToday);
+
+        const _0xuserPressCounts = {};
+        _0xvalidActionsToday.forEach((action) => {
+            _0xuserPressCounts[action.user] = (_0xuserPressCounts[action.user] || 0) + 1;
+        });
+
+        const _0xsortedUsers = Object.entries(_0xuserPressCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5);
+
+        const _0xmedals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+        const _0xtopSnitchersDayList = document.getElementById('top-snitchers-day-list');
+        _0xtopSnitchersDayList.innerHTML = '';
+
+        _0xsortedUsers.forEach(([user, count], index) => {
+            const _0xlistItem = document.createElement('li');
+
+            let _0xbackgroundImage = '';
+            if (user === 'Nati') {
+                _0xbackgroundImage = 'url("https://raw.githubusercontent.com/DarthNati/AviCounter/refs/heads/main/na.png")';
+            } else if (user === 'Galit') {
+                _0xbackgroundImage = 'url("https://raw.githubusercontent.com/DarthNati/AviCounter/refs/heads/main/g.png")';
+            } else if (user === 'Guy') {
+                _0xbackgroundImage = 'url("https://raw.githubusercontent.com/DarthNati/AviCounter/refs/heads/main/gu.png")';
+            } else if (user === 'Hodaya') {
+                _0xbackgroundImage = 'url("https://raw.githubusercontent.com/DarthNati/AviCounter/refs/heads/main/h.png")';
+            } else if (user === 'Nadav') {
+                _0xbackgroundImage = 'url("https://raw.githubusercontent.com/DarthNati/AviCounter/refs/heads/main/n.png")';
+            }
+
+            _0xlistItem.style.backgroundImage = _0xbackgroundImage;
+            _0xlistItem.style.backgroundSize = 'cover';
+            _0xlistItem.style.backgroundPosition = 'center';
+
+            _0xlistItem.innerHTML = `
+                <span class="medal">${_0xmedals[index]}</span>
+                <div class="user-stats">
+                    <span class="user-name">${user}</span>
+                    <span class="press-count">${count} Snitches</span>
+                </div>
+            `;
+            _0xtopSnitchersDayList.appendChild(_0xlistItem);
+        });
+    })
+    .catch((error) => console.error('Error fetching top snitchers of the day data:', error));
+}
+
 document.getElementById('increase-btn').addEventListener('click', function () {
     confetti({
         particleCount: 100,
@@ -355,6 +425,7 @@ document.getElementById('increase-btn').addEventListener('click', function () {
         console.log('Action logged successfully.');
         _0xloadCounter(_0xcurUserName);
         _0xloadLeaderboard();
+        _0xloadTopSnitchersOfDay(); // Update top snitchers of the day
         confetti();
     })
     .catch((error) => console.error('Error updating GitHub files:', error));
