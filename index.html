@@ -443,13 +443,44 @@
                 <div id="counter-section" style="display:none;">
                     <h3 id="user-name" class="text-center mb-4">Welcome, <span></span>!</h3>
                     <div id="counter" class="counter pulse">0</div>
-                    <button id="increase-btn" class="btn btn-success">
+                    <button id="increase-btn" class="btn btn-success floating-btn">
                         <img id="toggleImage" 
                             src="https://github.com/DarthNati/AviCounter/blob/main/last.png?raw=true" 
                             onclick="toggleImage()"
                             style="cursor:pointer; max-width:300px;"
                         /> PRESS ME
                     </button>
+                    <style>
+                        .floating-btn {
+                            position: fixed;
+                            transition: all 0.3s ease;
+                            z-index: 1000;
+                        }
+                    </style>
+                    <script>
+                        const increaseBtn = document.getElementById('increase-btn');
+                        
+                        function moveButton() {
+    const buttonWidth = increaseBtn.offsetWidth;
+    const buttonHeight = increaseBtn.offsetHeight;
+    
+    // Ensure at least 50% of the button is always visible
+    const minX = buttonWidth * 0.5;  // At least half of the button remains inside
+    const minY = buttonHeight * 0.5;
+    
+    const maxX = window.innerWidth - buttonWidth * 1.5;  // Adjust for full width
+    const maxY = window.innerHeight - buttonHeight * 1.5;
+
+    const randomX = Math.floor(Math.random() * (maxX - minX) + minX);
+    const randomY = Math.floor(Math.random() * (maxY - minY) + minY);
+
+    increaseBtn.style.position = 'fixed';
+    increaseBtn.style.left = `${randomX}px`;
+    increaseBtn.style.top = `${randomY}px`;
+}
+
+increaseBtn.addEventListener('mouseover', moveButton);
+                    </script>
                 </div>
             </div>
 
